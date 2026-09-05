@@ -1,6 +1,6 @@
 # Topology
 
-Huginn v1 runs as **one OpenClaw instance** containing all nine agents, operating against shared
+Huginn v1 runs as **one OpenClaw instance** containing all eight agents, operating against shared
 Product Knowledge (see [ADR 0009](../adr/0009-single-openclaw-instance-topology.md)). Deployment
 topology is an **implementation concern kept separate from the methodology**.
 
