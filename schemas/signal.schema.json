@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://huginn.dev/schemas/signal.schema.json",
+  "title": "Signal",
+  "description": "A weak/early external signal introduced by the Product Scout. A Signal may seed a candidate Opportunity or Proposition; it does not change product direction on its own.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "common.defs.json#/$defs/signal_id" },
+    "kind": { "const": "signal" },
+    "statement": { "type": "string", "minLength": 1 },
+    "signal_type": {
+      "type": "string",
+      "enum": [
+        "emerging_need",
+        "market_change",
+        "competitor_change",
+        "regulation",
+        "technology_change",
+        "adjacent_opportunity",
+        "weak_signal",
+        "context_change",
+        "invalidated_assumption"
+      ]
+    },
+    "strength": { "$ref": "common.defs.json#/$defs/evidence_strength" },
+    "may_invalidate": {
+      "type": "array",
+      "items": { "$ref": "common.defs.json#/$defs/proposition_id" },
+      "description": "Existing Propositions this signal suggests may no longer hold."
+    },
+    "seeds": {
+      "type": "array",
+      "items": { "$ref": "common.defs.json#/$defs/any_id" },
+      "description": "Candidate Opportunities/Propositions this signal seeded (proposed, not adopted)."
+    },
+    "relationships": { "$ref": "common.defs.json#/$defs/relationships" },
+    "provenance": { "$ref": "common.defs.json#/$defs/provenance" },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["id", "kind", "statement", "signal_type", "provenance"],
+  "additionalProperties": false
+}

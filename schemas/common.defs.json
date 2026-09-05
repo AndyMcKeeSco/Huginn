@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://huginn.dev/schemas/common.defs.json",
+  "title": "Huginn common definitions",
+  "description": "Shared $defs referenced by all Huginn Product Knowledge schemas.",
+  "$defs": {
+    "agent_id": {
+      "type": "string",
+      "enum": [
+        "product-owner",
+        "designer",
+        "engineer",
+        "proposition-steward",
+        "research-orchestrator",
+        "learning-steward",
+        "product-scout",
+        "ai-chief-of-staff",
+        "human"
+      ],
+      "description": "Who created/owns a record. 'human' denotes a person acting under reserved authority."
+    },
+    "any_id": {
+      "type": "string",
+      "pattern": "^[A-Z]{2,4}-[A-Za-z0-9._-]+$",
+      "description": "A stable Product Knowledge id of any entity type (PREFIX-slug)."
+    },
+    "intent_id": { "type": "string", "pattern": "^INT-[A-Za-z0-9._-]+$" },
+    "opportunity_id": { "type": "string", "pattern": "^OPP-[A-Za-z0-9._-]+$" },
+    "proposition_id": { "type": "string", "pattern": "^PROP-[A-Za-z0-9._-]+$" },
+    "test_id": { "type": "string", "pattern": "^TEST-[A-Za-z0-9._-]+$" },
+    "evidence_id": { "type": "string", "pattern": "^EV-[A-Za-z0-9._-]+$" },
+    "learning_id": { "type": "string", "pattern": "^LRN-[A-Za-z0-9._-]+$" },
+    "solution_id": { "type": "string", "pattern": "^SOL-[A-Za-z0-9._-]+$" },
+    "decision_id": { "type": "string", "pattern": "^DEC-[A-Za-z0-9._-]+$" },
+    "sprint_id": { "type": "string", "pattern": "^SPR-[A-Za-z0-9._-]+$" },
+    "sprint_outcome_id": { "type": "string", "pattern": "^SPO-[A-Za-z0-9._-]+$" },
+    "ppr_id": { "type": "string", "pattern": "^PPR-[A-Za-z0-9._-]+$" },
+    "prr_id": { "type": "string", "pattern": "^PRR-[A-Za-z0-9._-]+$" },
+    "canvas_id": { "type": "string", "pattern": "^CNV-[A-Za-z0-9._-]+$" },
+    "artifact_id": { "type": "string", "pattern": "^ART-[A-Za-z0-9._-]+$" },
+    "decision_brief_id": { "type": "string", "pattern": "^DB-[A-Za-z0-9._-]+$" },
+    "signal_id": { "type": "string", "pattern": "^SIG-[A-Za-z0-9._-]+$" },
+
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Subjective probability / strength of belief, 0..1."
+    },
+    "epistemic_state": {
+      "type": "string",
+      "enum": ["open", "supported", "contradicted", "mixed", "retired"],
+      "description": "Current belief state of a Proposition."
+    },
+    "evidence_strength": {
+      "type": "string",
+      "enum": ["weak", "moderate", "strong"],
+      "description": "Appraised strength of an Evidence record or a Learning."
+    },
+    "provenance": {
+      "type": "object",
+      "description": "Where a record came from and how it was produced.",
+      "properties": {
+        "created_by": { "$ref": "#/$defs/agent_id" },
+        "created_at": { "type": "string", "description": "ISO-8601 timestamp or date." },
+        "method": { "type": "string" },
+        "sources": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Artifact-ref ids or free-text source descriptors of raw material."
+        },
+        "note": { "type": "string" }
+      },
+      "required": ["created_by"],
+      "additionalProperties": true
+    },
+    "relationship": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "supports",
+            "contradicts",
+            "depends_on",
+            "refines",
+            "relates_to",
+            "part_of",
+            "targets",
+            "derived_from",
+            "informs"
+          ]
+        },
+        "target": { "$ref": "#/$defs/any_id" },
+        "note": { "type": "string" }
+      },
+      "required": ["type", "target"],
+      "additionalProperties": false
+    },
+    "relationships": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/relationship" }
+    },
+    "history_entry": {
+      "type": "object",
+      "description": "One belief-revision / change event on a record.",
+      "properties": {
+        "at": { "type": "string" },
+        "by": { "$ref": "#/$defs/agent_id" },
+        "change": { "type": "string" },
+        "from": {},
+        "to": {},
+        "evidence": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/evidence_id" }
+        }
+      },
+      "required": ["change"],
+      "additionalProperties": true
+    },
+    "measure": {
+      "type": "object",
+      "description": "A measurable target — what distinguishes an Outcome from an output.",
+      "properties": {
+        "metric": { "type": "string" },
+        "baseline": {},
+        "target": {},
+        "direction": { "type": "string", "enum": ["increase", "decrease", "maintain"] },
+        "timeframe": { "type": "string" }
+      },
+      "required": ["metric"],
+      "additionalProperties": true
+    }
+  }
+}

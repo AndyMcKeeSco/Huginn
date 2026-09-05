@@ -1,0 +1,13 @@
+# Artifact Reference — a pointer to raw material. An artifact is NOT Evidence.
+id: ART-000-template
+kind: artifact_ref
+artifact_type: prototype   # prototype|document|dataset|recording|transcript|design|code|external_link|other
+title: "<name of the artifact>"
+location: "<uri / path / handle>"
+is_evidence: false         # always false
+relationships: []
+provenance:
+  created_by: designer
+  created_at: "2026-01-01"
+  method: "artifact creation"
+tags: []

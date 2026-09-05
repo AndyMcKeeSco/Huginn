@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://huginn.dev/schemas/decision.schema.json",
+  "title": "Decision",
+  "description": "A recorded decision, including risk-assessment and prioritisation decisions. Carries the authority under which it was made.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "common.defs.json#/$defs/decision_id" },
+    "kind": { "const": "decision" },
+    "statement": { "type": "string", "minLength": 1 },
+    "decision_type": {
+      "type": "string",
+      "enum": [
+        "risk_assessment",
+        "prioritisation",
+        "target_opportunity",
+        "sprint_goal",
+        "test_selection",
+        "trade_off",
+        "belief_revision",
+        "learning_admission",
+        "governance",
+        "other"
+      ]
+    },
+    "made_by": { "$ref": "common.defs.json#/$defs/agent_id" },
+    "authority": {
+      "type": "string",
+      "enum": ["delegated", "reserved_human"],
+      "description": "Whether this was within delegated agent authority or required reserved human authority."
+    },
+    "rationale": { "type": "string" },
+    "based_on": {
+      "type": "array",
+      "items": { "$ref": "common.defs.json#/$defs/any_id" },
+      "description": "Learnings/Propositions/records this decision rests on."
+    },
+    "relationships": { "$ref": "common.defs.json#/$defs/relationships" },
+    "provenance": { "$ref": "common.defs.json#/$defs/provenance" },
+    "history": { "type": "array", "items": { "$ref": "common.defs.json#/$defs/history_entry" } },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["id", "kind", "statement", "decision_type", "made_by", "provenance"],
+  "additionalProperties": false
+}

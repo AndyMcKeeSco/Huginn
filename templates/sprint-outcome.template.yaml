@@ -1,0 +1,15 @@
+# Sprint Outcome — what the sprint achieved against its Learning Goals.
+id: SPO-000-template
+kind: sprint_outcome
+sprint_ref: SPR-000-template
+learnings: [LRN-000-template]
+uncertainty_reduced: "<which consequential uncertainty was reduced, and how much>"
+outcome_movement: "<did the target Outcome move, or did we learn why it will not?>"
+# learning_accounting_ref: DEC-...
+# pivot_persevere_ref: PPR-...
+relationships: []
+provenance:
+  created_by: product-owner
+  created_at: "2026-01-01"
+  method: "sprint review"
+tags: []

@@ -1,0 +1,21 @@
+# Evidence — an appraised observation. A prototype is NOT Evidence; observed interaction may PRODUCE it.
+id: EV-000-template
+kind: evidence
+observation: "<what was observed in the world>"
+source:
+  type: interview          # interview|survey_response|analytics|support_ticket|observation|document|benchmark|experiment_result|prototype_interaction|field_data|other
+  # artifact_ref: ART-...
+  descriptor: "<which source, when, context>"
+method: "<how it was gathered>"
+strength: moderate         # weak | moderate | strong
+limitations: "<sample, selection, recency, reliability caveats>"
+# produced_by_test: TEST-000-template
+supports: []
+contradicts: []
+relationships: []
+provenance:
+  created_by: learning-steward
+  created_at: "2026-01-01"
+  sources: ["ART-000-template"]
+  method: "evidence appraisal"
+tags: []

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://huginn.dev/schemas/intent.schema.json",
+  "title": "Intent",
+  "description": "What we are trying to achieve. Typed hierarchy: Challenge -> Impact -> Outcome.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "common.defs.json#/$defs/intent_id" },
+    "kind": { "const": "intent" },
+    "type": {
+      "type": "string",
+      "enum": ["challenge", "impact", "outcome"],
+      "description": "Challenge is human-governed; Outcome must be measurable."
+    },
+    "statement": { "type": "string", "minLength": 1 },
+    "parent_id": { "$ref": "common.defs.json#/$defs/intent_id" },
+    "human_governed": {
+      "type": "boolean",
+      "description": "Must be true for a Challenge: only a human may change it."
+    },
+    "measure": { "$ref": "common.defs.json#/$defs/measure" },
+    "relationships": { "$ref": "common.defs.json#/$defs/relationships" },
+    "provenance": { "$ref": "common.defs.json#/$defs/provenance" },
+    "history": { "type": "array", "items": { "$ref": "common.defs.json#/$defs/history_entry" } },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "status": { "type": "string", "enum": ["active", "achieved", "retired", "superseded"] }
+  },
+  "required": ["id", "kind", "type", "statement", "provenance"],
+  "allOf": [
+    {
+      "if": { "properties": { "type": { "const": "challenge" } } },
+      "then": {
+        "properties": { "human_governed": { "const": true } },
+        "required": ["human_governed"],
+        "not": { "required": ["parent_id"] },
+        "description": "A Challenge has no parent and is human-governed."
+      }
+    },
+    {
+      "if": { "properties": { "type": { "const": "outcome" } } },
+      "then": {
+        "required": ["measure"],
+        "description": "An Outcome must be measurable — outputs/features are not Outcomes."
+      }
+    },
+    {
+      "if": { "properties": { "type": { "enum": ["impact", "outcome"] } } },
+      "then": {
+        "required": ["parent_id"],
+        "description": "Impact and Outcome must sit under a parent in the Intent hierarchy."
+      }
+    }
+  ],
+  "additionalProperties": false
+}

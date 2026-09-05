@@ -1,0 +1,18 @@
+# Pivot/Reframe Recommendation — MUST originate with the Product Owner. Only a human may decide it.
+id: PRR-000-template
+kind: pivot_reframe_recommendation
+originating_agent: product-owner   # GOVERNANCE: fixed — only the Product Owner may originate
+recommendation: "<what direction change we recommend a human consider>"
+scope: outcome             # outcome | opportunity_space | solution_direction | challenge
+current_frame: "<how we currently frame it>"
+proposed_frame: "<the reframe under consideration>"
+evidence_basis: [LRN-000-template]   # at least one Learning
+risk_if_ignored: "<consequence of not reconsidering>"
+decision_status: open      # open | accepted | rejected | deferred  (set by a human)
+# decided_by: human
+relationships: []
+provenance:
+  created_by: product-owner
+  created_at: "2026-01-01"
+  method: "pivot/reframe recommendation"
+tags: []

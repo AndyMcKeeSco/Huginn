@@ -1,0 +1,20 @@
+# Sprint — the one shared Product Trio Sprint.
+id: SPR-000-template
+kind: sprint
+sprint_goal: "<reduce the most consequential uncertainty toward the target Outcome>"
+proposed_by: product-owner
+target_outcome: INT-000-template
+target_opportunity: OPP-000-template
+consequential_uncertainty: "<the most consequential uncertainty this sprint addresses>"
+learning_goals:
+  - "<what we intend to learn>"
+tests: [TEST-000-template]
+intended_decision_consequences:
+  - "If we learn X, we will do Y."
+status: planned            # planned | active | closed
+relationships: []
+provenance:
+  created_by: product-owner
+  created_at: "2026-01-01"
+  method: "sprint planning"
+tags: []

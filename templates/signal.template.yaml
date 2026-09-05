@@ -1,0 +1,14 @@
+# Signal — a weak/early external signal from the Product Scout. Seeds candidates; changes nothing alone.
+id: SIG-000-template
+kind: signal
+statement: "<what changed outside our current product model>"
+signal_type: weak_signal   # emerging_need|market_change|competitor_change|regulation|technology_change|adjacent_opportunity|weak_signal|context_change|invalidated_assumption
+strength: weak             # weak | moderate | strong
+may_invalidate: []
+seeds: []
+relationships: []
+provenance:
+  created_by: product-scout
+  created_at: "2026-01-01"
+  method: "horizon scanning"
+tags: []

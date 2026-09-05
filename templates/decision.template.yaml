@@ -1,0 +1,15 @@
+# Decision — a recorded decision (incl. risk assessment & prioritisation). Carries its authority.
+id: DEC-000-template
+kind: decision
+statement: "<what was decided>"
+decision_type: risk_assessment   # risk_assessment|prioritisation|target_opportunity|sprint_goal|test_selection|trade_off|belief_revision|learning_admission|governance|other
+made_by: product-owner
+authority: delegated              # delegated | reserved_human
+rationale: "<why>"
+based_on: [LRN-000-template]
+relationships: []
+provenance:
+  created_by: product-owner
+  created_at: "2026-01-01"
+  method: "risk assessment"
+tags: []
