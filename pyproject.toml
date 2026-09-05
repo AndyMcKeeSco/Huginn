@@ -1,0 +1,18 @@
+[project]
+name = "huginn"
+version = "0.1.0"
+description = "Huginn — an agentic, evidence-based product-development operating system (v1 harness)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+dependencies = [
+    "jsonschema>=4.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=7.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

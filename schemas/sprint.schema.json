@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://huginn.dev/schemas/sprint.schema.json",
+  "title": "Sprint",
+  "description": "The one shared Product Trio Sprint.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "common.defs.json#/$defs/sprint_id" },
+    "kind": { "const": "sprint" },
+    "sprint_goal": { "type": "string", "minLength": 1 },
+    "proposed_by": {
+      "$ref": "common.defs.json#/$defs/agent_id",
+      "description": "The Product Owner proposes the Sprint Goal."
+    },
+    "target_outcome": { "$ref": "common.defs.json#/$defs/intent_id" },
+    "target_opportunity": { "$ref": "common.defs.json#/$defs/opportunity_id" },
+    "consequential_uncertainty": {
+      "type": "string",
+      "description": "The most consequential uncertainty this sprint addresses."
+    },
+    "learning_goals": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "tests": {
+      "type": "array",
+      "items": { "$ref": "common.defs.json#/$defs/test_id" }
+    },
+    "intended_decision_consequences": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "status": { "type": "string", "enum": ["planned", "active", "closed"] },
+    "relationships": { "$ref": "common.defs.json#/$defs/relationships" },
+    "provenance": { "$ref": "common.defs.json#/$defs/provenance" },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["id", "kind", "sprint_goal", "target_outcome", "consequential_uncertainty", "learning_goals", "provenance"],
+  "additionalProperties": false
+}

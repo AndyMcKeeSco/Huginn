@@ -1,0 +1,19 @@
+id: SPR-01
+kind: sprint
+sprint_goal: Reduce uncertainty about whether complainants can identify the responsible organisation unaided.
+proposed_by: product-owner
+target_outcome: INT-outcome-first-time-routing
+target_opportunity: OPP-identify-owner
+consequential_uncertainty: Whether complainants can identify the responsible organisation unaided.
+learning_goals:
+  - "Establish whether unaided identification is a real and significant problem."
+tests: [TEST-card-sort]
+intended_decision_consequences:
+  - "If unaided identification is poor, invest in an at-intake routing aid."
+status: closed
+relationships: []
+provenance:
+  created_by: product-owner
+  created_at: "2026-02-05"
+  method: "sprint planning"
+tags: [complaints, worked-example]

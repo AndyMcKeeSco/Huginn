@@ -1,0 +1,89 @@
+# Huginn decision rights — the SINGLE SOURCE OF TRUTH for "who may do what".
+#
+# Both the AI Chief of Staff charter (agents/ai-chief-of-staff/CHARTER.md) and the automated
+# checks (tests/test_governance.py) read this file. Change a rule here and the governance
+# tests and the enforced boundary move together.
+#
+# `allowed_actors` uses the agent ids from schemas/common.defs.json#/$defs/agent_id
+# (plus `human` for reserved human authority).
+
+version: 1
+
+actions:
+
+  change_challenge:
+    description: >-
+      Change the strategic Challenge (top of the Intent hierarchy). Human-reserved:
+      no agent may change it. Agents may only recommend via originate_pivot_reframe.
+    allowed_actors: [human]
+
+  change_impact:
+    description: Change an Impact in the Intent hierarchy.
+    allowed_actors: [product-owner, human]
+
+  change_outcome:
+    description: Change an Outcome (measurable behavioural/real-world change).
+    allowed_actors: [product-owner, human]
+
+  select_target_opportunity:
+    description: Set which Opportunity is the Target (role=target).
+    allowed_actors: [product-owner]
+
+  prioritise:
+    description: Prioritise opportunities / work / tests.
+    allowed_actors: [product-owner]
+
+  propose_sprint_goal:
+    description: Propose the shared Product Trio Sprint Goal.
+    allowed_actors: [product-owner]
+
+  originate_pivot_reframe:
+    description: >-
+      Originate a formal Pivot/Reframe Recommendation. ONLY the Product Owner may originate
+      one; the AI Chief of Staff and all other agents may not.
+    allowed_actors: [product-owner]
+
+  decide_pivot_reframe:
+    description: Accept/reject a Pivot/Reframe Recommendation (especially a Challenge reframe).
+    allowed_actors: [human]
+
+  introduce_signal:
+    description: Introduce an external Signal.
+    allowed_actors: [product-scout]
+
+  introduce_candidate_opportunity:
+    description: Introduce a candidate Opportunity (proposed, not adopted).
+    allowed_actors: [product-scout, product-owner]
+
+  introduce_candidate_proposition:
+    description: Introduce a candidate Proposition.
+    allowed_actors: [product-scout, proposition-steward, product-owner]
+
+  revise_belief:
+    description: Revise confidence / epistemic state on a Proposition.
+    allowed_actors: [proposition-steward]
+
+  design_test:
+    description: Convert a learning priority into an executable Test.
+    allowed_actors: [research-orchestrator, product-owner]
+
+  admit_canonical_learning:
+    description: Admit a Learning into canonical Product Knowledge.
+    allowed_actors: [learning-steward]
+
+  author_decision_brief:
+    description: Author a Decision Brief at the human/autonomy boundary.
+    allowed_actors: [ai-chief-of-staff]
+
+  escalate_to_human:
+    description: Escalate a matter to a human (Management by Exception).
+    allowed_actors: [ai-chief-of-staff]
+
+# Explicit prohibitions worth stating (redundant with the above, kept for auditability).
+# These are asserted directly by tests/test_governance.py.
+invariants:
+  - "No agent other than 'human' may change_challenge."
+  - "Only 'product-owner' may originate_pivot_reframe."
+  - "The 'ai-chief-of-staff' may not change_challenge, originate_pivot_reframe, select_target_opportunity, or propose_sprint_goal."
+  - "Only 'learning-steward' may admit_canonical_learning."
+  - "Only 'product-owner' proposes the Sprint Goal."

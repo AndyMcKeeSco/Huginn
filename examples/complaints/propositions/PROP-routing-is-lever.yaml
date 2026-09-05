@@ -1,0 +1,28 @@
+id: PROP-routing-is-lever
+kind: proposition
+type: assumption
+statement: Improving complainant-facing routing is the main lever for reducing confusion.
+epistemic_state: mixed
+confidence: 0.35
+supporting_learning: []
+contradicting_learning: [LRN-upstream]
+risk_dimension: viability
+relationships:
+  - type: relates_to
+    target: INT-outcome-first-time-routing
+provenance:
+  created_by: proposition-steward
+  created_at: "2026-02-03"
+  method: "proposition formation"
+history:
+  - at: "2026-02-03"
+    by: proposition-steward
+    change: "formed as load-bearing assumption of the Outcome frame"
+    to: {epistemic_state: open, confidence: 0.6}
+  - at: "2026-02-20"
+    by: proposition-steward
+    change: "downgraded on contradicting Learning LRN-upstream"
+    from: {epistemic_state: open, confidence: 0.6}
+    to: {epistemic_state: mixed, confidence: 0.35}
+    evidence: [EV-intake-process]
+tags: [complaints, worked-example]

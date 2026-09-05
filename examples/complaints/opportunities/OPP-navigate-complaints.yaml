@@ -1,0 +1,12 @@
+id: OPP-navigate-complaints
+kind: opportunity
+statement: Complainants struggle to navigate a complaint that spans several organisations.
+opportunity_type: pain
+role: in_space
+intent_ref: INT-outcome-first-time-routing
+relationships: []
+provenance:
+  created_by: product-owner
+  created_at: "2026-02-03"
+  method: "opportunity mapping"
+tags: [complaints, worked-example]

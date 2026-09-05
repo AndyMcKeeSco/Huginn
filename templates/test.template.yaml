@@ -1,0 +1,23 @@
+# Test — the least costly SUFFICIENTLY reliable way to reduce a specified uncertainty.
+# Learning Objective AND Intended Decision Consequence are REQUIRED.
+id: TEST-000-template
+kind: test
+title: "<short name>"
+learning_objective: "<the specific uncertainty this Test exists to reduce>"
+target:
+  propositions: [PROP-000-template]   # and/or:
+  uncertainty: "<the uncertainty targeted>"
+evidence_sought: "<what would count as an observation>"
+method: interview          # experiment|interview|survey|usability_study|prototype_study|data_analysis|literature_review|technical_spike|concierge|wizard_of_oz|fake_door|ab_test|observation|other
+intended_decision_consequence: "If we learn X, we will do Y."
+cost_estimate: "<effort / time / money>"
+reliability_rationale: "<why this is sufficiently reliable for the decision>"
+status: proposed           # proposed|ready|blocked|running|complete|failed|abandoned
+# sprint_ref: SPR-...
+produces_evidence: []
+relationships: []
+provenance:
+  created_by: research-orchestrator
+  created_at: "2026-01-01"
+  method: "test design"
+tags: []

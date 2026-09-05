@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://huginn.dev/schemas/pivot-persevere-review.schema.json",
+  "title": "Pivot/Persevere Review",
+  "description": "The explicit end-of-sprint review deciding persevere / adjust / (governed) pivot.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "common.defs.json#/$defs/ppr_id" },
+    "kind": { "const": "pivot_persevere_review" },
+    "sprint_ref": { "$ref": "common.defs.json#/$defs/sprint_id" },
+    "decision": {
+      "type": "string",
+      "enum": ["persevere", "adjust", "pivot_reframe_recommended"],
+      "description": "adjust = change within the current frame; pivot_reframe_recommended raises a PRR to a human."
+    },
+    "reviewed_by": { "$ref": "common.defs.json#/$defs/agent_id" },
+    "rationale": { "type": "string", "minLength": 1 },
+    "based_on_learnings": {
+      "type": "array",
+      "items": { "$ref": "common.defs.json#/$defs/learning_id" }
+    },
+    "pivot_reframe_ref": {
+      "$ref": "common.defs.json#/$defs/prr_id",
+      "description": "Present only when decision = pivot_reframe_recommended."
+    },
+    "relationships": { "$ref": "common.defs.json#/$defs/relationships" },
+    "provenance": { "$ref": "common.defs.json#/$defs/provenance" },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["id", "kind", "sprint_ref", "decision", "reviewed_by", "rationale", "provenance"],
+  "allOf": [
+    {
+      "if": { "properties": { "decision": { "const": "pivot_reframe_recommended" } } },
+      "then": { "required": ["pivot_reframe_ref"] }
+    }
+  ],
+  "additionalProperties": false
+}

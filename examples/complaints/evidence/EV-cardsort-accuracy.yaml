@@ -1,0 +1,20 @@
+id: EV-cardsort-accuracy
+kind: evidence
+observation: "3 of 12 participants (25%) assigned a sample complaint to the correct organisation; median self-rated confidence was 2/5."
+source:
+  type: observation
+  artifact_ref: ART-cardsort-materials
+  descriptor: "Moderated card sort, 12 participants, one complaint domain, Feb 2026"
+method: "moderated card sort"
+strength: moderate
+limitations: "12 participants; single complaint domain; lab setting — not representative of all channels or domains."
+produced_by_test: TEST-card-sort
+supports: [PROP-cannot-identify]
+contradicts: []
+relationships: []
+provenance:
+  created_by: learning-steward
+  created_at: "2026-02-13"
+  sources: [ART-cardsort-materials]
+  method: "evidence appraisal"
+tags: [complaints, worked-example]

@@ -1,0 +1,20 @@
+# Learning — evidence-supported. MUST NOT exceed what its Evidence supports.
+id: LRN-000-template
+kind: learning
+statement: "<what we learned>"
+evidence: [EV-000-template]        # at least one — canonical Learning cannot stand on nothing
+limitations: "<what this Learning does NOT establish>"
+strength: moderate                  # weak | moderate | strong
+confidence: 0.6
+implications:
+  - "<what this changes>"
+affected_entities: [PROP-000-template]
+triangulation: "<how independent sources were cross-checked>"
+canonical: false                    # set true only when admitted by the Learning Steward
+relationships: []
+provenance:
+  created_by: learning-steward
+  created_at: "2026-01-01"
+  method: "learning synthesis"
+history: []
+tags: []

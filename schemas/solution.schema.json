@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://huginn.dev/schemas/solution.schema.json",
+  "title": "Solution",
+  "description": "A candidate way to address an Opportunity. A Solution is not an Opportunity and (until built and adopted) not a proven Outcome.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "common.defs.json#/$defs/solution_id" },
+    "kind": { "const": "solution" },
+    "statement": { "type": "string", "minLength": 1 },
+    "addresses_opportunity": {
+      "type": "array",
+      "items": { "$ref": "common.defs.json#/$defs/opportunity_id" }
+    },
+    "state": {
+      "type": "string",
+      "enum": ["candidate", "exploring", "prototyped", "validated", "adopted", "discarded"]
+    },
+    "key_assumptions": {
+      "type": "array",
+      "items": { "$ref": "common.defs.json#/$defs/proposition_id" }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": { "$ref": "common.defs.json#/$defs/artifact_id" }
+    },
+    "relationships": { "$ref": "common.defs.json#/$defs/relationships" },
+    "provenance": { "$ref": "common.defs.json#/$defs/provenance" },
+    "history": { "type": "array", "items": { "$ref": "common.defs.json#/$defs/history_entry" } },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["id", "kind", "statement", "provenance"],
+  "additionalProperties": false
+}

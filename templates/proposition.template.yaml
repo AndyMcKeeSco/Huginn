@@ -1,0 +1,17 @@
+# Proposition — Claim | Assumption | Hypothesis. One superclass, shared machinery.
+id: PROP-000-template
+kind: proposition
+type: assumption            # claim | assumption | hypothesis
+statement: "<what we believe, suspect, or need to establish>"
+epistemic_state: open       # open | supported | contradicted | mixed | retired
+confidence: 0.5             # 0..1
+supporting_learning: []
+contradicting_learning: []
+# risk_dimension: feasibility  # desirability|usability|feasibility|viability|delivery|operational|ethical|other
+relationships: []
+provenance:
+  created_by: proposition-steward
+  created_at: "2026-01-01"
+  method: "proposition formation"
+history: []
+tags: []

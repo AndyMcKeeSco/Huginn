@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://huginn.dev/schemas/decision-brief.schema.json",
+  "title": "Decision Brief",
+  "description": "The AI Chief of Staff's structured output at the human/autonomy boundary. Concise but fully traceable to canonical Product Knowledge.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "common.defs.json#/$defs/decision_brief_id" },
+    "kind": { "const": "decision_brief" },
+    "authored_by": {
+      "const": "ai-chief-of-staff",
+      "description": "GOVERNANCE: only the AI Chief of Staff authors Decision Briefs."
+    },
+    "escalate": {
+      "type": "boolean",
+      "description": "Management by Exception: true when a human must be involved; false records a considered no-escalation."
+    },
+    "trigger": {
+      "type": "string",
+      "enum": [
+        "repeated_failed_tests",
+        "stalled_work",
+        "unresolved_high_consequence_uncertainty",
+        "contradictory_learning",
+        "unexpected_outcome_movement",
+        "product_scout_signal",
+        "governance_violation",
+        "pivot_reframe_recommendation",
+        "agent_conflict",
+        "no_justified_progress",
+        "routine_activity"
+      ]
+    },
+    "what_happened": { "type": "string", "minLength": 1 },
+    "why_it_matters": { "type": "string", "minLength": 1 },
+    "relevant_intent": {
+      "type": "array",
+      "items": { "$ref": "common.defs.json#/$defs/intent_id" }
+    },
+    "relevant_evidence_learning": {
+      "type": "array",
+      "items": { "$ref": "common.defs.json#/$defs/any_id" }
+    },
+    "current_uncertainty": { "type": "string" },
+    "agent_recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent": { "$ref": "common.defs.json#/$defs/agent_id" },
+          "recommendation": { "type": "string" }
+        },
+        "required": ["agent", "recommendation"],
+        "additionalProperties": false
+      }
+    },
+    "material_disagreements": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "options": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "option": { "type": "string" },
+          "likely_consequences": { "type": "string" }
+        },
+        "required": ["option"],
+        "additionalProperties": false
+      }
+    },
+    "decision_required": { "type": "string" },
+    "urgency": { "type": "string", "enum": ["low", "medium", "high", "critical"] },
+    "decision_authority": {
+      "$ref": "common.defs.json#/$defs/agent_id",
+      "description": "Who holds authority for the decision (often 'human' or 'product-owner')."
+    },
+    "no_escalation_rationale": {
+      "type": "string",
+      "description": "Present when escalate=false: why routine handling is sufficient."
+    },
+    "relationships": { "$ref": "common.defs.json#/$defs/relationships" },
+    "provenance": { "$ref": "common.defs.json#/$defs/provenance" },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["id", "kind", "authored_by", "escalate", "trigger", "what_happened", "why_it_matters", "provenance"],
+  "allOf": [
+    {
+      "if": { "properties": { "escalate": { "const": true } } },
+      "then": {
+        "required": ["decision_required", "urgency", "decision_authority", "options"],
+        "description": "An escalating brief must state the decision, its urgency, who decides, and the options."
+      }
+    },
+    {
+      "if": { "properties": { "escalate": { "const": false } } },
+      "then": {
+        "required": ["no_escalation_rationale"],
+        "description": "A no-escalation brief must record why routine handling is sufficient."
+      }
+    }
+  ],
+  "additionalProperties": false
+}

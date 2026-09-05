@@ -1,0 +1,16 @@
+id: OPP-identify-owner
+kind: opportunity
+statement: Complainants cannot tell which organisation is responsible for their complaint.
+opportunity_type: problem
+role: target
+parent_id: OPP-navigate-complaints
+intent_ref: INT-outcome-first-time-routing
+evidence_of_existence: [EV-cardsort-accuracy]
+relationships:
+  - type: targets
+    target: INT-outcome-first-time-routing
+provenance:
+  created_by: product-owner
+  created_at: "2026-02-03"
+  method: "opportunity discovery"
+tags: [complaints, worked-example]

@@ -1,0 +1,18 @@
+id: PRR-reframe-outcome
+kind: pivot_reframe_recommendation
+originating_agent: product-owner
+recommendation: Reconsider the target Outcome to address upstream intake ownership, not only complainant-facing routing.
+scope: outcome
+current_frame: "Outcome = more complainants reach the correct organisation on first contact, via complainant-facing routing aids."
+proposed_frame: "Outcome = correct complaint ownership is established at intake, measured by downstream misrouting rate."
+evidence_basis: [LRN-upstream]
+risk_if_ignored: "Continued investment in complainant-side routing may not move the Outcome if the cause of confusion is upstream, wasting a sprint's capacity and delaying real progress."
+decision_status: open
+relationships:
+  - type: derived_from
+    target: PPR-02
+provenance:
+  created_by: product-owner
+  created_at: "2026-02-20"
+  method: "pivot/reframe recommendation"
+tags: [complaints, worked-example]

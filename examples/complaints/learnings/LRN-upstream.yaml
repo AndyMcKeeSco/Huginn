@@ -1,0 +1,21 @@
+id: LRN-upstream
+kind: learning
+statement: A material share of complainant confusion originates upstream, from intake ownership ambiguity that a complainant-facing routing aid would not address.
+evidence: [EV-intake-process]
+limitations: "Based on process documentation and the regulatory notice, not live operational observation; the magnitude of resulting confusion is not yet quantified."
+strength: moderate
+confidence: 0.55
+implications:
+  - "The current Outcome frame (complainant-side routing) may target a symptom rather than the cause."
+  - "Load-bearing assumption PROP-routing-is-lever is contradicted."
+affected_entities: [PROP-routing-is-lever, INT-outcome-first-time-routing]
+triangulation: "Corroborated by the regulatory change captured in signal SIG-regulation."
+canonical: true
+relationships:
+  - type: contradicts
+    target: PROP-routing-is-lever
+provenance:
+  created_by: learning-steward
+  created_at: "2026-02-20"
+  method: "learning synthesis + validation"
+tags: [complaints, worked-example]

@@ -1,0 +1,14 @@
+id: DEC-risk-01
+kind: decision
+statement: The most consequential uncertainty is whether complainants can identify the responsible organisation unaided.
+decision_type: risk_assessment
+made_by: product-owner
+authority: delegated
+rationale: "High consequence (it underpins the whole routing direction) and high uncertainty at outset. Cheapest sufficiently reliable way to reduce it is a card sort. Lens: riskiest-assumption thinking."
+based_on: [PROP-cannot-identify, OPP-identify-owner]
+relationships: []
+provenance:
+  created_by: product-owner
+  created_at: "2026-02-05"
+  method: "risk assessment"
+tags: [complaints, worked-example]

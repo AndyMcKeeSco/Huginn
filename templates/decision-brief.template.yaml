@@ -1,0 +1,32 @@
+# Decision Brief — authored by the AI Chief of Staff at the human/autonomy boundary.
+# If escalate: true  -> decision_required, urgency, decision_authority, options are required.
+# If escalate: false -> no_escalation_rationale is required.
+id: DB-000-template
+kind: decision_brief
+authored_by: ai-chief-of-staff   # GOVERNANCE: fixed — only the ACoS authors briefs
+escalate: true
+trigger: pivot_reframe_recommendation
+what_happened: "<what occurred>"
+why_it_matters: "<consequence and relevance to Intent/Outcome>"
+relevant_intent: [INT-000-template]
+relevant_evidence_learning: [LRN-000-template]
+current_uncertainty: "<what remains uncertain>"
+agent_recommendations:
+  - agent: product-owner
+    recommendation: "<the PO's recommendation>"
+material_disagreements: []
+options:
+  - option: "<option A>"
+    likely_consequences: "<what follows>"
+  - option: "<option B>"
+    likely_consequences: "<what follows>"
+decision_required: "<the decision the human must make>"
+urgency: high            # low | medium | high | critical
+decision_authority: human
+# no_escalation_rationale: "<required only when escalate: false>"
+relationships: []
+provenance:
+  created_by: ai-chief-of-staff
+  created_at: "2026-01-01"
+  method: "decision briefing"
+tags: []

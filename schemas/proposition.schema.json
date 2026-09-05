@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://huginn.dev/schemas/proposition.schema.json",
+  "title": "Proposition",
+  "description": "What we believe, suspect or must establish. Superclass: Claim | Assumption | Hypothesis.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "common.defs.json#/$defs/proposition_id" },
+    "kind": { "const": "proposition" },
+    "type": {
+      "type": "string",
+      "enum": ["claim", "assumption", "hypothesis"],
+      "description": "Claim = assertion about the world; Assumption = must be true to succeed; Hypothesis = testable prediction."
+    },
+    "statement": { "type": "string", "minLength": 1 },
+    "epistemic_state": { "$ref": "common.defs.json#/$defs/epistemic_state" },
+    "confidence": { "$ref": "common.defs.json#/$defs/confidence" },
+    "supporting_learning": {
+      "type": "array",
+      "items": { "$ref": "common.defs.json#/$defs/learning_id" }
+    },
+    "contradicting_learning": {
+      "type": "array",
+      "items": { "$ref": "common.defs.json#/$defs/learning_id" }
+    },
+    "risk_dimension": {
+      "type": "string",
+      "enum": ["desirability", "usability", "feasibility", "viability", "delivery", "operational", "ethical", "other"],
+      "description": "Optional: which risk dimension this proposition bears on."
+    },
+    "relationships": { "$ref": "common.defs.json#/$defs/relationships" },
+    "provenance": { "$ref": "common.defs.json#/$defs/provenance" },
+    "history": { "type": "array", "items": { "$ref": "common.defs.json#/$defs/history_entry" } },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["id", "kind", "type", "statement", "epistemic_state", "provenance"],
+  "additionalProperties": false
+}

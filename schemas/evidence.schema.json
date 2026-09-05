@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://huginn.dev/schemas/evidence.schema.json",
+  "title": "Evidence",
+  "description": "An appraised observation drawn from a source. NOT the kernel; supports Learning. A prototype is not Evidence; LLM confidence is not Evidence.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "common.defs.json#/$defs/evidence_id" },
+    "kind": { "const": "evidence" },
+    "observation": {
+      "type": "string",
+      "minLength": 1,
+      "description": "What was observed. An observation of the world, not an assertion or a model's confidence."
+    },
+    "source": {
+      "type": "object",
+      "description": "The raw material this Evidence was drawn from.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "interview",
+            "survey_response",
+            "analytics",
+            "support_ticket",
+            "observation",
+            "document",
+            "benchmark",
+            "experiment_result",
+            "prototype_interaction",
+            "field_data",
+            "other"
+          ]
+        },
+        "artifact_ref": { "$ref": "common.defs.json#/$defs/artifact_id" },
+        "descriptor": { "type": "string" }
+      },
+      "required": ["type"],
+      "additionalProperties": true
+    },
+    "method": { "type": "string", "description": "How the evidence was gathered." },
+    "strength": { "$ref": "common.defs.json#/$defs/evidence_strength" },
+    "limitations": {
+      "type": "string",
+      "description": "Sample, selection, recency, reliability caveats that travel with this Evidence."
+    },
+    "produced_by_test": { "$ref": "common.defs.json#/$defs/test_id" },
+    "supports": {
+      "type": "array",
+      "items": { "$ref": "common.defs.json#/$defs/proposition_id" }
+    },
+    "contradicts": {
+      "type": "array",
+      "items": { "$ref": "common.defs.json#/$defs/proposition_id" }
+    },
+    "relationships": { "$ref": "common.defs.json#/$defs/relationships" },
+    "provenance": { "$ref": "common.defs.json#/$defs/provenance" },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["id", "kind", "observation", "source", "provenance"],
+  "additionalProperties": false
+}

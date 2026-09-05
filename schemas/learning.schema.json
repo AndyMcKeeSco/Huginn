@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://huginn.dev/schemas/learning.schema.json",
+  "title": "Learning",
+  "description": "An evidence-supported statement of what we learned and what it changes. Replaces 'Finding'. Must never exceed what its Evidence supports.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "common.defs.json#/$defs/learning_id" },
+    "kind": { "const": "learning" },
+    "statement": { "type": "string", "minLength": 1 },
+    "evidence": {
+      "type": "array",
+      "items": { "$ref": "common.defs.json#/$defs/evidence_id" },
+      "minItems": 1,
+      "description": "Supporting Evidence. At least one required — canonical Learning cannot stand on nothing."
+    },
+    "limitations": {
+      "type": "string",
+      "minLength": 1,
+      "description": "What this Learning does NOT establish. Required — bounds the claim."
+    },
+    "strength": { "$ref": "common.defs.json#/$defs/evidence_strength" },
+    "confidence": { "$ref": "common.defs.json#/$defs/confidence" },
+    "implications": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "What this Learning changes."
+    },
+    "affected_entities": {
+      "type": "array",
+      "items": { "$ref": "common.defs.json#/$defs/any_id" },
+      "description": "Propositions/Opportunities/Intent/Solutions/Decisions this Learning updates."
+    },
+    "triangulation": {
+      "type": "string",
+      "description": "How independent sources were cross-checked (Learning Steward)."
+    },
+    "canonical": {
+      "type": "boolean",
+      "description": "True once admitted into canonical Product Knowledge by the Learning Steward."
+    },
+    "relationships": { "$ref": "common.defs.json#/$defs/relationships" },
+    "provenance": { "$ref": "common.defs.json#/$defs/provenance" },
+    "history": { "type": "array", "items": { "$ref": "common.defs.json#/$defs/history_entry" } },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["id", "kind", "statement", "evidence", "limitations", "provenance"],
+  "additionalProperties": false
+}

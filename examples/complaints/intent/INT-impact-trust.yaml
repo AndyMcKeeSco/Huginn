@@ -1,0 +1,14 @@
+id: INT-impact-trust
+kind: intent
+type: impact
+statement: Complainants trust that their complaint will reach the right organisation and be resolved.
+parent_id: INT-challenge-complaints
+relationships:
+  - type: part_of
+    target: INT-challenge-complaints
+provenance:
+  created_by: product-owner
+  created_at: "2026-02-01"
+  method: "impact mapping"
+status: active
+tags: [complaints, worked-example]

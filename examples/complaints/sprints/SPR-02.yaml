@@ -1,0 +1,19 @@
+id: SPR-02
+kind: sprint
+sprint_goal: Establish whether complainant confusion originates upstream at intake (cause vs symptom).
+proposed_by: product-owner
+target_outcome: INT-outcome-first-time-routing
+target_opportunity: OPP-upstream-ownership
+consequential_uncertainty: Whether complainant-facing routing addresses the cause of confusion or only a symptom.
+learning_goals:
+  - "Determine whether ownership ambiguity originates at upstream intake."
+tests: [TEST-intake-review]
+intended_decision_consequences:
+  - "If ambiguity is upstream, recommend a human reconsider the Outcome frame."
+status: closed
+relationships: []
+provenance:
+  created_by: product-owner
+  created_at: "2026-02-17"
+  method: "sprint planning"
+tags: [complaints, worked-example]

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://huginn.dev/schemas/opportunity.schema.json",
+  "title": "Opportunity",
+  "description": "A user/customer need, pain, desire, problem or area of leverage. NOT a Solution.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "common.defs.json#/$defs/opportunity_id" },
+    "kind": { "const": "opportunity" },
+    "statement": { "type": "string", "minLength": 1 },
+    "opportunity_type": {
+      "type": "string",
+      "enum": ["need", "pain", "desire", "problem", "unmet_need", "leverage"]
+    },
+    "role": {
+      "type": "string",
+      "enum": ["candidate", "in_space", "target", "parked", "retired"],
+      "description": "Target Opportunity is normally represented as role=target on the Opportunity."
+    },
+    "parent_id": {
+      "$ref": "common.defs.json#/$defs/opportunity_id",
+      "description": "For Opportunity Solution Tree / Opportunity Space hierarchy."
+    },
+    "intent_ref": {
+      "$ref": "common.defs.json#/$defs/intent_id",
+      "description": "The Outcome/Impact this Opportunity offers leverage toward."
+    },
+    "evidence_of_existence": {
+      "type": "array",
+      "items": { "$ref": "common.defs.json#/$defs/evidence_id" },
+      "description": "Evidence that this Opportunity is real (not asserted)."
+    },
+    "relationships": { "$ref": "common.defs.json#/$defs/relationships" },
+    "provenance": { "$ref": "common.defs.json#/$defs/provenance" },
+    "history": { "type": "array", "items": { "$ref": "common.defs.json#/$defs/history_entry" } },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["id", "kind", "statement", "opportunity_type", "provenance"],
+  "additionalProperties": false
+}

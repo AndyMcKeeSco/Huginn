@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://huginn.dev/schemas/pivot-reframe-recommendation.schema.json",
+  "title": "Pivot/Reframe Recommendation",
+  "description": "A formal recommendation to a human to change strategic direction (up to and including the Challenge). MUST originate with the Product Owner. No agent may enact it; only a human may decide.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "common.defs.json#/$defs/prr_id" },
+    "kind": { "const": "pivot_reframe_recommendation" },
+    "originating_agent": {
+      "const": "product-owner",
+      "description": "GOVERNANCE: only the Product Owner may originate a Pivot/Reframe Recommendation."
+    },
+    "recommendation": { "type": "string", "minLength": 1 },
+    "scope": {
+      "type": "string",
+      "enum": ["outcome", "opportunity_space", "solution_direction", "challenge"],
+      "description": "Changing the Challenge is human-reserved; the PRR only recommends."
+    },
+    "current_frame": { "type": "string" },
+    "proposed_frame": { "type": "string" },
+    "evidence_basis": {
+      "type": "array",
+      "items": { "$ref": "common.defs.json#/$defs/learning_id" },
+      "minItems": 1,
+      "description": "The Learning that justifies reconsidering direction."
+    },
+    "risk_if_ignored": { "type": "string" },
+    "decision_status": {
+      "type": "string",
+      "enum": ["open", "accepted", "rejected", "deferred"],
+      "description": "Set by a human decision; agents may not self-accept."
+    },
+    "decided_by": { "$ref": "common.defs.json#/$defs/agent_id" },
+    "relationships": { "$ref": "common.defs.json#/$defs/relationships" },
+    "provenance": { "$ref": "common.defs.json#/$defs/provenance" },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["id", "kind", "originating_agent", "recommendation", "scope", "evidence_basis", "provenance"],
+  "additionalProperties": false
+}

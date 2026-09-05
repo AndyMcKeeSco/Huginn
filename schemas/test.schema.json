@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://huginn.dev/schemas/test.schema.json",
+  "title": "Test",
+  "description": "Deliberate work to reduce a specified uncertainty in order to inform a decision. Experiment is one method/subtype.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "common.defs.json#/$defs/test_id" },
+    "kind": { "const": "test" },
+    "title": { "type": "string", "minLength": 1 },
+    "learning_objective": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The specific uncertainty this Test exists to reduce. REQUIRED."
+    },
+    "target": {
+      "type": "object",
+      "description": "The Proposition and/or uncertainty this Test points at.",
+      "properties": {
+        "propositions": {
+          "type": "array",
+          "items": { "$ref": "common.defs.json#/$defs/proposition_id" }
+        },
+        "uncertainty": { "type": "string" }
+      },
+      "anyOf": [
+        { "required": ["propositions"] },
+        { "required": ["uncertainty"] }
+      ]
+    },
+    "evidence_sought": {
+      "type": "string",
+      "minLength": 1,
+      "description": "What would count as an observation. REQUIRED."
+    },
+    "method": {
+      "type": "string",
+      "enum": [
+        "experiment",
+        "interview",
+        "survey",
+        "usability_study",
+        "prototype_study",
+        "data_analysis",
+        "literature_review",
+        "technical_spike",
+        "concierge",
+        "wizard_of_oz",
+        "fake_door",
+        "ab_test",
+        "observation",
+        "other"
+      ],
+      "description": "The learning method. 'experiment' is one subtype. REQUIRED."
+    },
+    "intended_decision_consequence": {
+      "type": "string",
+      "minLength": 1,
+      "description": "If we learn X we will do Y. A Test with no decision attached is not worth running. REQUIRED."
+    },
+    "cost_estimate": { "type": "string" },
+    "reliability_rationale": {
+      "type": "string",
+      "description": "Why this is the least costly SUFFICIENTLY reliable way to learn."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["proposed", "ready", "blocked", "running", "complete", "failed", "abandoned"]
+    },
+    "sprint_ref": { "$ref": "common.defs.json#/$defs/sprint_id" },
+    "produces_evidence": {
+      "type": "array",
+      "items": { "$ref": "common.defs.json#/$defs/evidence_id" }
+    },
+    "relationships": { "$ref": "common.defs.json#/$defs/relationships" },
+    "provenance": { "$ref": "common.defs.json#/$defs/provenance" },
+    "history": { "type": "array", "items": { "$ref": "common.defs.json#/$defs/history_entry" } },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": [
+    "id",
+    "kind",
+    "learning_objective",
+    "target",
+    "evidence_sought",
+    "method",
+    "intended_decision_consequence",
+    "provenance"
+  ],
+  "additionalProperties": false
+}

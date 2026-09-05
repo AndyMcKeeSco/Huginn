@@ -1,0 +1,21 @@
+id: TEST-card-sort
+kind: test
+title: "Card sort of complaint ownership"
+learning_objective: Whether complainants can identify the responsible organisation unaided.
+target:
+  propositions: [PROP-cannot-identify]
+  uncertainty: "unaided identification accuracy"
+evidence_sought: Accuracy with which participants assign sample complaints to the correct organisation, and their stated confidence.
+method: usability_study
+intended_decision_consequence: If unaided accuracy is low, invest in an at-intake routing aid and test PROP-routing-aid-helps.
+cost_estimate: "1 researcher-week; 12 participants"
+reliability_rationale: A moderated card sort is a cheap, direct observation of the identification behaviour we care about — sufficiently reliable to decide whether to pursue a routing aid.
+status: complete
+sprint_ref: SPR-01
+produces_evidence: [EV-cardsort-accuracy]
+relationships: []
+provenance:
+  created_by: research-orchestrator
+  created_at: "2026-02-06"
+  method: "test design"
+tags: [complaints, worked-example]

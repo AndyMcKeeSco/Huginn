@@ -1,0 +1,15 @@
+# Opportunity — a need/pain/desire/problem/leverage. NOT a Solution.
+id: OPP-000-template
+kind: opportunity
+statement: "<the user/customer need, pain, desire or problem>"
+opportunity_type: pain      # need | pain | desire | problem | unmet_need | leverage
+role: candidate             # candidate | in_space | target | parked | retired
+# parent_id: OPP-...         # for Opportunity Solution Tree hierarchy
+# intent_ref: INT-...        # the Outcome/Impact this offers leverage toward
+evidence_of_existence: []
+relationships: []
+provenance:
+  created_by: product-owner
+  created_at: "2026-01-01"
+  method: "opportunity discovery"
+tags: []

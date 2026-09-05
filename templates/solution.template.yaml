@@ -1,0 +1,14 @@
+# Solution — a candidate way to address an Opportunity. Not an Opportunity; not a proven Outcome.
+id: SOL-000-template
+kind: solution
+statement: "<the candidate solution>"
+addresses_opportunity: [OPP-000-template]
+state: candidate           # candidate|exploring|prototyped|validated|adopted|discarded
+key_assumptions: [PROP-000-template]
+artifacts: []
+relationships: []
+provenance:
+  created_by: designer
+  created_at: "2026-01-01"
+  method: "solution sketch"
+tags: []

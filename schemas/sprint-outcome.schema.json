@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://huginn.dev/schemas/sprint-outcome.schema.json",
+  "title": "Sprint Outcome",
+  "description": "What a sprint achieved against its Learning Goals, including Learning Accounting and the Pivot/Persevere decision.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "common.defs.json#/$defs/sprint_outcome_id" },
+    "kind": { "const": "sprint_outcome" },
+    "sprint_ref": { "$ref": "common.defs.json#/$defs/sprint_id" },
+    "learnings": {
+      "type": "array",
+      "items": { "$ref": "common.defs.json#/$defs/learning_id" }
+    },
+    "uncertainty_reduced": {
+      "type": "string",
+      "description": "Which consequential uncertainty was reduced, and how much."
+    },
+    "outcome_movement": {
+      "type": "string",
+      "description": "Did the target Outcome move, or did we learn why it will not?"
+    },
+    "learning_accounting_ref": { "$ref": "common.defs.json#/$defs/decision_id" },
+    "pivot_persevere_ref": { "$ref": "common.defs.json#/$defs/ppr_id" },
+    "relationships": { "$ref": "common.defs.json#/$defs/relationships" },
+    "provenance": { "$ref": "common.defs.json#/$defs/provenance" },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["id", "kind", "sprint_ref", "uncertainty_reduced", "provenance"],
+  "additionalProperties": false
+}

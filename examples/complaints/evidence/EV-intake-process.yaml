@@ -1,0 +1,18 @@
+id: EV-intake-process
+kind: evidence
+observation: "In 4 of 5 partner organisations, intake processes neither assign nor communicate complaint ownership; the new regulatory notice now requires them to."
+source:
+  type: document
+  descriptor: "Process documentation review across 5 partners + regulatory notice, Feb 2026"
+method: "process/document review"
+strength: moderate
+limitations: "Document review only; not observed in live operation; magnitude of resulting confusion not quantified."
+produced_by_test: TEST-intake-review
+supports: []
+contradicts: [PROP-routing-is-lever]
+relationships: []
+provenance:
+  created_by: learning-steward
+  created_at: "2026-02-19"
+  method: "evidence appraisal"
+tags: [complaints, worked-example]

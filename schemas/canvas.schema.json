@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://huginn.dev/schemas/canvas.schema.json",
+  "title": "Canvas",
+  "description": "A human-readable projection of Product Knowledge. Not canonical truth, not a lifecycle gate. Every element references canonical records.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "common.defs.json#/$defs/canvas_id" },
+    "kind": { "const": "canvas" },
+    "canvas_type": {
+      "type": "string",
+      "enum": [
+        "intent_outcomes",
+        "opportunity_solution_tree",
+        "propositions_assumptions",
+        "risk_confidence",
+        "sprint_learning_history",
+        "value_proposition",
+        "product_model",
+        "business_model",
+        "feasibility_constraints",
+        "lean_product"
+      ]
+    },
+    "title": { "type": "string", "minLength": 1 },
+    "projection_of": {
+      "type": "string",
+      "const": "product_knowledge",
+      "description": "Canvases project canonical Product Knowledge; they never originate truth."
+    },
+    "elements": {
+      "type": "array",
+      "description": "Each element is a projection of one or more canonical records.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string" },
+          "cell": { "type": "string", "description": "Which region/section of the canvas." },
+          "refs": {
+            "type": "array",
+            "items": { "$ref": "common.defs.json#/$defs/any_id" },
+            "minItems": 1,
+            "description": "Canonical Product Knowledge ids this element projects."
+          }
+        },
+        "required": ["refs"],
+        "additionalProperties": true
+      }
+    },
+    "provenance": { "$ref": "common.defs.json#/$defs/provenance" },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["id", "kind", "canvas_type", "title", "elements", "provenance"],
+  "additionalProperties": false
+}

@@ -1,0 +1,28 @@
+id: PROP-cannot-identify
+kind: proposition
+type: assumption
+statement: Complainants cannot identify which organisation is responsible for their complaint unaided.
+epistemic_state: supported
+confidence: 0.8
+supporting_learning: [LRN-misid]
+contradicting_learning: []
+risk_dimension: usability
+relationships:
+  - type: relates_to
+    target: OPP-identify-owner
+provenance:
+  created_by: proposition-steward
+  created_at: "2026-02-03"
+  method: "proposition formation"
+history:
+  - at: "2026-02-03"
+    by: proposition-steward
+    change: "formed as open assumption"
+    to: {epistemic_state: open, confidence: 0.4}
+  - at: "2026-02-14"
+    by: proposition-steward
+    change: "revised on admitted Learning LRN-misid (weight of evidence)"
+    from: {epistemic_state: open, confidence: 0.4}
+    to: {epistemic_state: supported, confidence: 0.8}
+    evidence: [EV-cardsort-accuracy]
+tags: [complaints, worked-example]

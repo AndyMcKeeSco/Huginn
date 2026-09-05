@@ -1,0 +1,22 @@
+# Intent — Challenge | Impact | Outcome. Fill in and copy into your Product Knowledge.
+# A Challenge has no parent and is human_governed: true.
+# An Outcome requires a `measure` (outputs/features are NOT Outcomes) and a parent.
+id: INT-000-template
+kind: intent
+type: challenge            # challenge | impact | outcome
+statement: "<the strategic problem or ambition we are organised around>"
+human_governed: true      # REQUIRED true for a challenge; only a human may change it
+# parent_id: INT-...       # required for impact/outcome, omit for challenge
+# measure:                 # required for outcome
+#   metric: "<measurable behavioural or real-world change>"
+#   baseline: null
+#   target: null
+#   direction: increase
+#   timeframe: "<by when>"
+relationships: []
+provenance:
+  created_by: human        # a Challenge is set/changed by a human
+  created_at: "2026-01-01"
+  method: "intent definition"
+tags: []
+status: active

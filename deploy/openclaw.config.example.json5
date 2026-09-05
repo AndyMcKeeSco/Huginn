@@ -1,0 +1,94 @@
+// Huginn — single OpenClaw instance topology (ILLUSTRATIVE EXAMPLE)
+//
+// This file maps Huginn's methodology-level agents (agents/<name>/CHARTER.md) and skills
+// (skills/<name>/SKILL.md) onto ONE OpenClaw instance. It is a DEPLOYMENT concern only and is
+// deliberately kept separate from the methodology (see docs/adr/0009-single-openclaw-instance-topology.md
+// and docs/architecture/topology.md). Do NOT create separate instances for Product/Design/Engineering.
+//
+// Field names below follow the OpenClaw agent/skill model (agents.entries.*, skills roots per
+// https://docs.openclaw.ai/tools/skills). Treat this as a starting template to adapt to your
+// OpenClaw version, not a guaranteed-valid production config.
+{
+  instance: {
+    name: "huginn",
+    description: "Huginn v1 — evidence-based product-development operating system (single instance)",
+  },
+
+  // Skills are discovered from these roots (recursively). Each skill is skills/<name>/SKILL.md.
+  skills: {
+    roots: ["./skills"],
+  },
+
+  // Shared Product Knowledge lives in the workspace; all agents read/write it.
+  productKnowledge: {
+    schemas: "./schemas",
+    records: "./examples",   // point at your live Product Knowledge directory in production
+    validateWith: "./scripts/validate.py",
+  },
+
+  // Governance: the single source of truth for decision rights, referenced by the ACoS and tests.
+  governance: {
+    decisionRights: "./governance/decision_rights.yaml",
+  },
+
+  // One entry per persistent-responsibility agent. `charter` is the system-prompt source of truth;
+  // `skills` attaches reusable capabilities. `decisionRights` names the actions the agent may take
+  // (must be a subset of what governance/decision_rights.yaml permits for that actor).
+  agents: {
+    entries: {
+      "product-owner": {
+        charter: "./agents/product-owner/CHARTER.md",
+        skills: ["intent-definition", "intent-alignment", "opportunity-assessment",
+                 "opportunity-selection", "opportunity-mapping", "risk-assessment",
+                 "learning-accounting", "pivot-persevere-assessment"],
+        decisionRights: ["change_impact", "change_outcome", "select_target_opportunity",
+                         "prioritise", "propose_sprint_goal", "design_test",
+                         "introduce_candidate_opportunity", "introduce_candidate_proposition",
+                         "originate_pivot_reframe"],
+      },
+      "designer": {
+        charter: "./agents/designer/CHARTER.md",
+        skills: ["user-research", "test-design"],
+        note: "v1 deliberately lightweight — see agents/designer/INTERFACES.md",
+      },
+      "engineer": {
+        charter: "./agents/engineer/CHARTER.md",
+        skills: ["technical-investigation", "test-design"],
+        note: "v1 deliberately lightweight — see agents/engineer/INTERFACES.md",
+      },
+      "proposition-steward": {
+        charter: "./agents/proposition-steward/CHARTER.md",
+        skills: ["proposition-formation", "proposition-classification", "proposition-linking",
+                 "belief-revision", "contradiction-detection", "assumption-mapping"],
+        decisionRights: ["revise_belief", "introduce_candidate_proposition"],
+      },
+      "research-orchestrator": {
+        charter: "./agents/research-orchestrator/CHARTER.md",
+        skills: ["test-design", "test-readiness", "knowledge-research", "data-analytics",
+                 "user-research", "technical-investigation"],
+        decisionRights: ["design_test"],
+      },
+      "learning-steward": {
+        charter: "./agents/learning-steward/CHARTER.md",
+        skills: ["evidence-appraisal", "learning-synthesis", "learning-validation"],
+        decisionRights: ["admit_canonical_learning"],
+      },
+      "product-scout": {
+        charter: "./agents/product-scout/CHARTER.md",
+        skills: ["opportunity-discovery", "knowledge-research", "contradiction-detection"],
+        decisionRights: ["introduce_signal", "introduce_candidate_opportunity",
+                         "introduce_candidate_proposition"],
+      },
+      "ai-chief-of-staff": {
+        charter: "./agents/ai-chief-of-staff/CHARTER.md",
+        skills: ["risk-assessment", "canvas-management"],
+        decisionRights: ["author_decision_brief", "escalate_to_human"],
+        observes: ["product-owner", "designer", "engineer", "proposition-steward",
+                   "research-orchestrator", "learning-steward", "product-scout"],
+      },
+    },
+  },
+
+  // 'human' is not an agent entry — it is the reserved authority for change_challenge and
+  // decide_pivot_reframe, exercised out-of-band and recorded in Product Knowledge.
+}

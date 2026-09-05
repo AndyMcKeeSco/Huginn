@@ -1,0 +1,21 @@
+id: TEST-intake-review
+kind: test
+title: "Review of partner intake processes"
+learning_objective: Whether ownership ambiguity originates at upstream intake rather than in complainant navigation.
+target:
+  propositions: [PROP-routing-is-lever]
+  uncertainty: "cause vs symptom of confusion"
+evidence_sought: Whether partner organisations assign and communicate complaint ownership at intake.
+method: literature_review
+intended_decision_consequence: If ambiguity originates upstream, recommend a human reconsider the Outcome frame to include intake ownership.
+cost_estimate: "3 researcher-days; document review of 5 partners"
+reliability_rationale: A structured process/document review plus the new regulatory notice is the least costly way to establish where ownership is (or is not) assigned.
+status: complete
+sprint_ref: SPR-02
+produces_evidence: [EV-intake-process]
+relationships: []
+provenance:
+  created_by: research-orchestrator
+  created_at: "2026-02-18"
+  method: "test design"
+tags: [complaints, worked-example]

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://huginn.dev/schemas/artifact-ref.schema.json",
+  "title": "Artifact Reference",
+  "description": "A pointer to raw material (prototype, document, dataset, recording). An artifact is NOT Evidence; Evidence may be drawn from it.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "common.defs.json#/$defs/artifact_id" },
+    "kind": { "const": "artifact_ref" },
+    "artifact_type": {
+      "type": "string",
+      "enum": ["prototype", "document", "dataset", "recording", "transcript", "design", "code", "external_link", "other"]
+    },
+    "title": { "type": "string", "minLength": 1 },
+    "location": { "type": "string", "description": "URI/path/handle to the artifact." },
+    "is_evidence": {
+      "const": false,
+      "description": "Always false. An artifact reference is not Evidence."
+    },
+    "relationships": { "$ref": "common.defs.json#/$defs/relationships" },
+    "provenance": { "$ref": "common.defs.json#/$defs/provenance" },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["id", "kind", "artifact_type", "title", "provenance"],
+  "additionalProperties": false
+}
