@@ -17,24 +17,24 @@ Written in Bash for a Linux (Ubuntu) OpenClaw host. It follows the OpenClaw conf
 (<https://docs.openclaw.ai/gateway/configuration>): config at `~/.openclaw/openclaw.json`
 (JSON5), agents under `agents.entries.*`, skills discovered from `<workspace>/skills`.
 
-### What it does (default = full reset)
+### What it does (default = non-destructive reconcile)
 
 1. **Verify** the Huginn repo sources exist (fails before touching anything).
 2. **Back up** the entire existing `~/.openclaw` to a timestamped `~/.openclaw.backup-<ts>.tar.gz`
    (unless `--no-backup`).
-3. **Remove** `~/.openclaw` entirely — a full reset (all agents, workspaces, credentials, history).
-4. **Install**:
+3. **Install/reconcile**:
    - a shared workspace `~/.openclaw/workspace-huginn/` containing the Product Knowledge
      (`schemas/`, `templates/`, `governance/`, `docs/`, `agents/`, `canvases/`, `examples/`) and
      the `skills/` packages, plus an empty `records/` dir for live Product Knowledge;
    - a fresh `~/.openclaw/openclaw.json` mapping the **eight** Huginn agents to `agents.entries.*`
      (Product Owner is `default: true`), each attached to its skills, all sharing the one
      workspace so they share canonical Product Knowledge.
-5. **Validate** with `openclaw config validate` / `openclaw doctor --fix` if the CLI is present.
+4. **Validate** with `openclaw config validate` / `openclaw doctor --fix` if the CLI is present.
 
-> ⚠️ **Destructive.** A full reset deletes everything under `~/.openclaw`. The script requires you
-> to type `reset` to confirm (unless `--yes`) and always backs up first unless you pass
-> `--no-backup`. Restore from the backup with:
+> ⚠️ **Optional destructive mode.** Use `--full-reset` to delete everything under `~/.openclaw`.
+> In full-reset mode, the script requires you to type `reset` to confirm (unless `--yes`) and
+> always backs up first unless you pass `--no-backup`. On failure after backup, it attempts an
+> automatic rollback from the backup. Manual restore command:
 > `rm -rf ~/.openclaw && tar -xzf ~/.openclaw.backup-<ts>.tar.gz -C ~`
 
 ### Usage
@@ -48,6 +48,9 @@ On the Ubuntu host, from a checkout of this repo:
 # Do it (prompts for confirmation, backs up first):
 ./deploy/install-openclaw-config.sh
 
+# Full destructive reset + reinstall:
+./deploy/install-openclaw-config.sh --full-reset
+
 # Non-interactive (e.g. CI/provisioning):
 ./deploy/install-openclaw-config.sh --yes
 ```
@@ -56,8 +59,9 @@ On the Ubuntu host, from a checkout of this repo:
 
 | Option | Effect |
 |---|---|
-| `-y, --yes` | Skip the confirmation prompt (required for non-interactive runs). |
+| `-y, --yes` | Skip confirmation prompts (required for non-interactive runs, including `--full-reset`). |
 | `--dry-run` | Print planned actions and the generated config; change nothing. |
+| `--full-reset` | Destructively remove `<openclaw-home>` before reinstalling everything. |
 | `--no-backup` | Skip the safety backup (not recommended). |
 | `--repo PATH` | Huginn repo location (default: the parent of the script). |
 | `--openclaw-home P` | Override the state dir (default: `~/.openclaw`). |

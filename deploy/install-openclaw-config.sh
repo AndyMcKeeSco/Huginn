@@ -3,16 +3,18 @@
 # install-openclaw-config.sh — clear down an existing OpenClaw configuration and install
 # the Huginn single-instance configuration on a Linux (Ubuntu) host.
 #
-# DEFAULT BEHAVIOUR IS A FULL RESET of the OpenClaw state directory (~/.openclaw):
+# DEFAULT BEHAVIOUR IS A NON-DESTRUCTIVE RECONCILE:
 #   1. Verify the Huginn repo sources exist (fail early, before touching anything).
-#   2. Back up the entire existing ~/.openclaw to a timestamped tar.gz (unless --no-backup).
-#   3. Remove ~/.openclaw entirely (agents, workspaces, credentials, history — all of it).
-#   4. Recreate it: a shared Huginn workspace (skills + Product Knowledge) and a fresh
-#      openclaw.json mapping the eight Huginn agents to agents.entries.* with attached skills.
-#   5. Validate with `openclaw config validate` / `openclaw doctor` if the CLI is present.
+#   2. Back up the existing ~/.openclaw to a timestamped tar.gz (unless --no-backup).
+#   3. Reconcile the managed Huginn workspace content and write a fresh openclaw.json.
+#   4. Validate with `openclaw config validate` / `openclaw doctor` if the CLI is present.
 #
-# This is destructive. It requires an interactive confirmation unless --yes is given, and it
-# always makes a backup first unless you explicitly pass --no-backup.
+# OPTIONAL: --full-reset performs a destructive reset of the OpenClaw state directory:
+#   - Remove ~/.openclaw entirely (agents, workspaces, credentials, history — all of it).
+#   - Recreate it from scratch before writing config/workspace content.
+#
+# --full-reset requires an interactive confirmation unless --yes is given, and backup is strongly
+# recommended. On failure after backup, the script attempts automatic rollback from the backup.
 #
 # OpenClaw config model (https://docs.openclaw.ai/gateway/configuration):
 #   * config file: ~/.openclaw/openclaw.json (JSON5), overridable via OPENCLAW_CONFIG_PATH
@@ -26,6 +28,7 @@
 # Options:
 #   -y, --yes              Do not prompt for confirmation (required for non-interactive runs).
 #       --dry-run          Print what would happen; change nothing.
+#       --full-reset       Destructively remove <openclaw-home> before reinstalling.
 #       --no-backup        Skip the safety backup of the existing ~/.openclaw (NOT recommended).
 #       --repo PATH        Path to the Huginn repo (default: the parent of this script).
 #       --openclaw-home P  Override the OpenClaw state dir (default: ~/.openclaw).
@@ -56,12 +59,54 @@ CONFIG_PATH="${OPENCLAW_CONFIG_PATH:-}"
 WORKSPACE=""
 ASSUME_YES=0
 DO_BACKUP=1
+FULL_RESET=0
+BACKUP_CREATED=0
+ROLLBACK_ENABLED=0
+
+require_abs_path() {
+  case "${1:-}" in
+    "") die "$2 must not be empty" ;;
+    /*) ;;
+    *) die "$2 must be an absolute path: $1" ;;
+  esac
+}
+
+guard_dangerous_dir() {
+  case "$1" in
+    "/"|"/."|"//") die "refusing unsafe path for $2: $1" ;;
+  esac
+}
+
+guard_dangerous_file() {
+  case "$1" in
+    "/"|"/."|"//") die "refusing unsafe file path for $2: $1" ;;
+  esac
+}
+
+attempt_rollback() {
+  [ "$DRY_RUN" -eq 1 ] && return 0
+  [ "$ROLLBACK_ENABLED" -eq 1 ] || return 0
+  [ "$BACKUP_CREATED" -eq 1 ] || return 0
+  [ -f "$BACKUP_TGZ" ] || return 0
+
+  warn "install failed; attempting rollback from backup: $BACKUP_TGZ"
+  set +e
+  rm -rf "$OPENCLAW_HOME"
+  mkdir -p "$(dirname "$OPENCLAW_HOME")"
+  tar -xzf "$BACKUP_TGZ" -C "$(dirname "$OPENCLAW_HOME")"
+  if [ $? -eq 0 ]; then
+    warn "rollback completed"
+  else
+    warn "rollback failed; restore manually with: rm -rf '$OPENCLAW_HOME' && tar -xzf '$BACKUP_TGZ' -C '$(dirname "$OPENCLAW_HOME")'"
+  fi
+}
 
 # ---------------------------------------------------------------------------- args ----------
 while [ $# -gt 0 ]; do
   case "$1" in
     -y|--yes)        ASSUME_YES=1 ;;
     --dry-run)       DRY_RUN=1 ;;
+    --full-reset)    FULL_RESET=1 ;;
     --no-backup)     DO_BACKUP=0 ;;
     --repo)          REPO_ROOT="$(cd "$2" && pwd)"; shift ;;
     --openclaw-home) OPENCLAW_HOME="$2"; shift ;;
@@ -78,6 +123,21 @@ done
 TS="$(date +%Y%m%d-%H%M%S)"
 BACKUP_TGZ="$OPENCLAW_HOME.backup-$TS.tar.gz"
 
+require_abs_path "$OPENCLAW_HOME" "openclaw home"
+require_abs_path "$CONFIG_PATH" "config path"
+require_abs_path "$WORKSPACE" "workspace path"
+guard_dangerous_dir "$OPENCLAW_HOME" "openclaw home"
+guard_dangerous_file "$CONFIG_PATH" "config path"
+guard_dangerous_dir "$WORKSPACE" "workspace"
+[ "$OPENCLAW_HOME" != "$HOME" ] || die "refusing to operate on HOME directly: $OPENCLAW_HOME"
+[ "$WORKSPACE" != "$OPENCLAW_HOME" ] || die "workspace must not equal openclaw home: $WORKSPACE"
+if [ -L "$OPENCLAW_HOME" ]; then
+  die "openclaw home must not be a symlink: $OPENCLAW_HOME"
+fi
+if [ -d "$CONFIG_PATH" ]; then
+  die "config path must be a file path, not a directory: $CONFIG_PATH"
+fi
+
 # The Huginn directories copied into the workspace so all agents share Product Knowledge.
 MANAGED_DIRS="skills schemas templates governance docs agents canvases examples"
 
@@ -87,6 +147,7 @@ log "repo:           $REPO_ROOT"
 log "openclaw home:  $OPENCLAW_HOME"
 log "config file:    $CONFIG_PATH"
 log "workspace:      $WORKSPACE"
+log "mode:           $([ "$FULL_RESET" -eq 1 ] && echo "FULL RESET" || echo "RECONCILE (non-destructive)")"
 [ "$DRY_RUN" -eq 1 ] && log "mode:           DRY RUN (no changes)"
 
 [ -f "$REPO_ROOT/AGENTS.md" ] || die "does not look like the Huginn repo (no AGENTS.md): $REPO_ROOT"
@@ -102,7 +163,7 @@ SKILL_COUNT="$(printf '%s\n' "$ALL_SKILLS" | wc -l | tr -d ' ')"
 log "skills found:   $SKILL_COUNT"
 
 # ------------------------------------------------------------ 2. confirm --------------------
-if [ "$ASSUME_YES" -ne 1 ] && [ "$DRY_RUN" -ne 1 ]; then
+if [ "$FULL_RESET" -eq 1 ] && [ "$ASSUME_YES" -ne 1 ] && [ "$DRY_RUN" -ne 1 ]; then
   if [ ! -t 0 ]; then die "refusing to do a full reset non-interactively; pass --yes to proceed"; fi
   printf '\033[31mThis will DELETE the entire %s (all agents, workspaces, credentials, history)\033[0m\n' "$OPENCLAW_HOME"
   [ "$DO_BACKUP" -eq 1 ] && printf 'A backup will be written to %s first.\n' "$BACKUP_TGZ" || printf '\033[31mNO BACKUP will be taken (--no-backup).\033[0m\n'
@@ -116,6 +177,8 @@ if [ -d "$OPENCLAW_HOME" ]; then
   if [ "$DO_BACKUP" -eq 1 ]; then
     info "Backing up existing $OPENCLAW_HOME"
     run "tar -czf '$BACKUP_TGZ' -C '$(dirname "$OPENCLAW_HOME")' '$(basename "$OPENCLAW_HOME")'"
+    [ "$DRY_RUN" -eq 1 ] || BACKUP_CREATED=1
+    [ "$DRY_RUN" -eq 1 ] || ROLLBACK_ENABLED=1
     log "backup: $BACKUP_TGZ"
   else
     warn "skipping backup (--no-backup)"
@@ -125,19 +188,21 @@ else
 fi
 
 # Best-effort: stop a running gateway so it does not rewrite the config from under us.
-if command -v openclaw >/dev/null 2>&1; then
+if [ "$FULL_RESET" -eq 1 ] && command -v openclaw >/dev/null 2>&1; then
   info "Stopping OpenClaw gateway (best effort)"
   run "openclaw gateway stop >/dev/null 2>&1 || true"
 fi
 
 # ------------------------------------------------------------ 4. clear down (full reset) ----
-if [ -d "$OPENCLAW_HOME" ]; then
+if [ "$FULL_RESET" -eq 1 ] && [ -d "$OPENCLAW_HOME" ]; then
   info "Removing $OPENCLAW_HOME (full reset)"
   run "rm -rf '$OPENCLAW_HOME'"
 fi
 
 # ------------------------------------------------------------ 5. install --------------------
-info "Creating fresh state dir and Huginn workspace"
+trap 'attempt_rollback' ERR
+
+info "Ensuring state dir and Huginn workspace"
 run "mkdir -p '$OPENCLAW_HOME'"
 run "mkdir -p '$WORKSPACE'"
 
