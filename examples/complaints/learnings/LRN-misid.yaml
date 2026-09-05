@@ -1,0 +1,21 @@
+id: LRN-misid
+kind: learning
+statement: In the tested domain, most complainants cannot identify the responsible organisation unaided.
+evidence: [EV-cardsort-accuracy]
+limitations: "Single study, 12 participants, one complaint domain; generalisation to other domains and channels is unproven."
+strength: moderate
+confidence: 0.6
+implications:
+  - "An at-intake routing aid is a plausible way to reduce misdirected complaints."
+  - "Assumption PROP-cannot-identify is supported and its confidence should rise."
+affected_entities: [PROP-cannot-identify, OPP-identify-owner]
+triangulation: "Directionally consistent with partner misrouting rates (secondary, weak)."
+canonical: true
+relationships:
+  - type: supports
+    target: PROP-cannot-identify
+provenance:
+  created_by: learning-steward
+  created_at: "2026-02-14"
+  method: "learning synthesis + validation"
+tags: [complaints, worked-example]

@@ -1,0 +1,17 @@
+id: PROP-routing-aid-helps
+kind: proposition
+type: hypothesis
+statement: Providing an at-intake routing aid increases first-contact-correct routing.
+epistemic_state: open
+confidence: 0.5
+supporting_learning: []
+contradicting_learning: []
+risk_dimension: desirability
+relationships:
+  - type: depends_on
+    target: PROP-cannot-identify
+provenance:
+  created_by: proposition-steward
+  created_at: "2026-02-14"
+  method: "proposition formation"
+tags: [complaints, worked-example]

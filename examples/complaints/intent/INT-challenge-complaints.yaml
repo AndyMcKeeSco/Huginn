@@ -1,0 +1,12 @@
+id: INT-challenge-complaints
+kind: intent
+type: challenge
+statement: Reduce customer confusion in a multi-organisation complaints process.
+human_governed: true
+relationships: []
+provenance:
+  created_by: human
+  created_at: "2026-02-01"
+  method: "intent definition"
+status: active
+tags: [complaints, worked-example]

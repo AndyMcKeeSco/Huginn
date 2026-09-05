@@ -1,0 +1,41 @@
+# Scenario B — a human Decision Brief IS required.
+# Sprint 2 produced Learning that contradicts a load-bearing assumption, and the Product Owner
+# originated a Pivot/Reframe Recommendation (scope: outcome). This engages reserved human
+# authority (decide_pivot_reframe) and a possibly-invalidated strategic assumption -> escalate.
+id: DB-02-escalate
+kind: decision_brief
+authored_by: ai-chief-of-staff
+escalate: true
+trigger: pivot_reframe_recommendation
+what_happened: "Sprint 2's intake review produced Learning LRN-upstream, which contradicts PROP-routing-is-lever (the assumption that complainant-side routing is the main lever). Corroborated by regulatory signal SIG-regulation, the Product Owner originated Pivot/Reframe Recommendation PRR-reframe-outcome, proposing the Outcome be reframed toward upstream intake ownership."
+why_it_matters: "The current Outcome (complainant-facing first-time routing) may target a symptom, not the cause. Reframing the Outcome is not within delegated authority: deciding a Pivot/Reframe is human-reserved, and a load-bearing strategic assumption may no longer hold (escalation conditions E1 and E6)."
+relevant_intent: [INT-challenge-complaints, INT-outcome-first-time-routing]
+relevant_evidence_learning: [EV-intake-process, LRN-upstream, PROP-routing-is-lever, SIG-regulation]
+current_uncertainty: "The magnitude of upstream-caused confusion is not yet quantified; the reframed Outcome's measure would need defining."
+agent_recommendations:
+  - agent: product-owner
+    recommendation: "Reframe the Outcome to include upstream intake ownership; pause further investment in complainant-side routing aids until decided."
+  - agent: product-scout
+    recommendation: "Treat the regulatory change as a durable shift, not noise; the upstream Opportunity is likely to grow."
+  - agent: learning-steward
+    recommendation: "Note LRN-upstream is document-based; commission a small live-operation study before fully committing."
+material_disagreements:
+  - "Learning Steward urges one more corroborating study before reframing; the Product Owner judges the regulatory + document evidence sufficient to ask for a human decision now."
+options:
+  - option: "Reframe the Outcome toward upstream intake ownership now."
+    likely_consequences: "Aligns with the cause and the regulation; abandons some sunk routing-aid work; needs a new measure."
+  - option: "Keep the current Outcome; run one more corroborating study first."
+    likely_consequences: "Lower reframing risk; delays action ~1 sprint; routing-aid investment continues meanwhile."
+  - option: "Broaden the Challenge scope to intake ownership."
+    likely_consequences: "Larger strategic change; requires explicit human authority over the Challenge; higher coordination cost."
+decision_required: "Whether to accept the Pivot/Reframe Recommendation and reframe the target Outcome (and whether to commission further corroboration first)."
+urgency: high
+decision_authority: human
+relationships:
+  - type: relates_to
+    target: PRR-reframe-outcome
+provenance:
+  created_by: ai-chief-of-staff
+  created_at: "2026-02-20"
+  method: "decision briefing"
+tags: [complaints, worked-example]

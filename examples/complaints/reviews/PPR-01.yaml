@@ -1,0 +1,13 @@
+id: PPR-01
+kind: pivot_persevere_review
+sprint_ref: SPR-01
+decision: persevere
+reviewed_by: product-owner
+rationale: "The frame holds and the learning-per-cost was high: unaided identification is a real problem, so pursuing an at-intake routing aid is justified. Persevere into testing PROP-routing-aid-helps."
+based_on_learnings: [LRN-misid]
+relationships: []
+provenance:
+  created_by: product-owner
+  created_at: "2026-02-14"
+  method: "pivot/persevere review"
+tags: [complaints, worked-example]

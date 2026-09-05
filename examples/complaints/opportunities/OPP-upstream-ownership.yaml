@@ -1,0 +1,14 @@
+id: OPP-upstream-ownership
+kind: opportunity
+statement: Ownership of a complaint is not established at intake by the receiving organisation.
+opportunity_type: problem
+role: candidate
+intent_ref: INT-outcome-first-time-routing
+relationships:
+  - type: relates_to
+    target: OPP-identify-owner
+provenance:
+  created_by: product-scout
+  created_at: "2026-02-18"
+  method: "signal-seeded candidate"
+tags: [complaints, worked-example, candidate]

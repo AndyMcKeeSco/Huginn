@@ -1,0 +1,12 @@
+id: ART-cardsort-materials
+kind: artifact_ref
+artifact_type: document
+title: "Card-sort protocol and stimulus set (complaint ownership)"
+location: "research/complaints/cardsort-2026-02/"
+is_evidence: false
+relationships: []
+provenance:
+  created_by: designer
+  created_at: "2026-02-10"
+  method: "study materials preparation"
+tags: [complaints, worked-example]

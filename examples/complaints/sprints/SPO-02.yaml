@@ -1,0 +1,13 @@
+id: SPO-02
+kind: sprint_outcome
+sprint_ref: SPR-02
+learnings: [LRN-upstream]
+uncertainty_reduced: "Reduced the cause-vs-symptom uncertainty; contradicted PROP-routing-is-lever (open/0.6 -> mixed/0.35)."
+outcome_movement: "None; the learning indicates the current Outcome frame may target a symptom, not the cause."
+pivot_persevere_ref: PPR-02
+relationships: []
+provenance:
+  created_by: product-owner
+  created_at: "2026-02-20"
+  method: "sprint review"
+tags: [complaints, worked-example]

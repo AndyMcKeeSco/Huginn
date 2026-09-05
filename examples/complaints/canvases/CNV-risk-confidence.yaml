@@ -1,0 +1,23 @@
+id: CNV-risk-confidence
+kind: canvas
+canvas_type: risk_confidence
+title: "Complaints — Risk & Confidence (end of Sprint 2)"
+projection_of: product_knowledge
+elements:
+  - cell: most_consequential_uncertainty
+    label: "Is routing the right lever at all? (cause vs symptom)"
+    refs: [DEC-risk-02, PROP-routing-is-lever]
+  - cell: supported_belief
+    label: "Complainants cannot identify the owner unaided (0.8)"
+    refs: [PROP-cannot-identify, LRN-misid]
+  - cell: contradicted_belief
+    label: "Routing is the main lever — now contradicted (0.35)"
+    refs: [PROP-routing-is-lever, LRN-upstream]
+  - cell: open_hypothesis
+    label: "An at-intake routing aid improves routing (untested)"
+    refs: [PROP-routing-aid-helps]
+provenance:
+  created_by: product-owner
+  created_at: "2026-02-20"
+  method: "canvas management"
+tags: [complaints, worked-example]

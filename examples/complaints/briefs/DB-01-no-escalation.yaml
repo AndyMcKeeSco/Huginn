@@ -1,0 +1,22 @@
+# Scenario A — the AI Chief of Staff decides NO human escalation is necessary.
+# After Sprint 1, the Proposition Steward revised PROP-cannot-identify on admitted Learning.
+# This is routine, within delegated authority, and does not engage any reserved decision.
+id: DB-01-no-escalation
+kind: decision_brief
+authored_by: ai-chief-of-staff
+escalate: false
+trigger: routine_activity
+what_happened: "Sprint 1's card sort produced Learning LRN-misid; the Proposition Steward raised PROP-cannot-identify from open/0.4 to supported/0.8, and the Product Owner chose to persevere toward testing a routing aid."
+why_it_matters: "It advances the Outcome direction, but every step was within delegated authority: belief revision (Proposition Steward), learning admission (Learning Steward), persevere decision (Product Owner). No reserved decision was engaged."
+relevant_intent: [INT-outcome-first-time-routing]
+relevant_evidence_learning: [EV-cardsort-accuracy, LRN-misid, PROP-cannot-identify]
+current_uncertainty: "Whether a routing aid will actually improve routing (PROP-routing-aid-helps, still open) — scheduled as normal work."
+no_escalation_rationale: "Management by Exception: no boundary condition is met. The Learning is within its Evidence, the belief revision followed the rules, and no human-reserved authority (Challenge change, Pivot/Reframe) is involved. Routine handling is sufficient; escalating would create noise."
+relationships:
+  - type: relates_to
+    target: SPO-01
+provenance:
+  created_by: ai-chief-of-staff
+  created_at: "2026-02-14"
+  method: "exception assessment"
+tags: [complaints, worked-example]

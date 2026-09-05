@@ -1,0 +1,14 @@
+id: DEC-risk-02
+kind: decision
+statement: After the regulatory signal, the most consequential uncertainty shifts to whether routing is the right lever at all (cause vs symptom).
+decision_type: risk_assessment
+made_by: product-owner
+authority: delegated
+rationale: "SIG-regulation and the contradiction of PROP-routing-is-lever raise a higher-consequence uncertainty than routing-aid efficacy: if the cause is upstream, complainant-side routing may not move the Outcome. Reprioritise Sprint 2 to test cause vs symptom."
+based_on: [SIG-regulation, PROP-routing-is-lever]
+relationships: []
+provenance:
+  created_by: product-owner
+  created_at: "2026-02-17"
+  method: "risk assessment"
+tags: [complaints, worked-example]
