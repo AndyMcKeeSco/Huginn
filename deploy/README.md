@@ -30,7 +30,12 @@ Written in Bash for a Linux (Ubuntu) OpenClaw host. It follows the OpenClaw conf
    - a fresh `~/.openclaw/openclaw.json` mapping the **eight** Huginn agents to `agents.entries.*`
      (Product Owner is `default: true`), each attached to its skills, all sharing the one
      workspace so they share canonical Product Knowledge.
-5. **Validate** with `openclaw config validate` / `openclaw doctor --fix` if the CLI is present.
+5. **Automations** (if OpenClaw CLI is present):
+   - remove existing **user-manageable** automations;
+   - keep system-managed automations (heartbeat/declaration-key jobs);
+   - create one automation named **Sprint completion consult** that runs the
+     `sprint-master` agent to consult on whether the sprint is complete.
+6. **Validate** with `openclaw config validate` / `openclaw doctor --fix` if the CLI is present.
 
 > ⚠️ **Destructive.** A full reset deletes everything under `~/.openclaw`. The script requires you
 > to type `reset` to confirm (unless `--yes`) and always backs up first unless you pass

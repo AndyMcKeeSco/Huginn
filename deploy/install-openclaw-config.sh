@@ -9,7 +9,9 @@
 #   3. Remove ~/.openclaw entirely (agents, workspaces, credentials, history — all of it).
 #   4. Recreate it: a shared Huginn workspace (skills + Product Knowledge) and a fresh
 #      openclaw.json mapping the eight Huginn agents to agents.entries.* with attached skills.
-#   5. Validate with `openclaw config validate` / `openclaw doctor` if the CLI is present.
+#   5. Remove existing user automations while preserving system-managed automations.
+#   6. Install one Sprint Master consultation automation.
+#   7. Validate with `openclaw config validate` / `openclaw doctor` if the CLI is present.
 #
 # This is destructive. It requires an interactive confirmation unless --yes is given, and it
 # always makes a backup first unless you explicitly pass --no-backup.
@@ -208,6 +210,61 @@ fi
 
 # ------------------------------------------------------------ 7. validate -------------------
 if command -v openclaw >/dev/null 2>&1; then
+  info "Resetting user automations and installing Sprint Master consultation automation"
+
+  # List known jobs (best effort). Keep system jobs (for example heartbeat and reserved
+  # declaration-key jobs), remove user-manageable jobs.
+  JOBS_JSON="$(
+    OPENCLAW_CONFIG_PATH="$CONFIG_PATH" openclaw automations list --all --json 2>/dev/null || true
+  )"
+  if [ -n "$JOBS_JSON" ]; then
+    JOB_IDS="$(printf '%s\n' "$JOBS_JSON" | sed -n 's/.*"id"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | sort -u)"
+    if [ -n "$JOB_IDS" ]; then
+      while IFS= read -r job_id; do
+        [ -n "$job_id" ] || continue
+        JOB_JSON="$(
+          OPENCLAW_CONFIG_PATH="$CONFIG_PATH" openclaw automations get "$job_id" --json 2>/dev/null || true
+        )"
+
+        # Skip known system-managed automations.
+        if printf '%s\n' "$JOB_JSON" | grep -Eq '"declarationKey"[[:space:]]*:' \
+          || printf '%s\n' "$JOB_JSON" | grep -Eq '"kind"[[:space:]]*:[[:space:]]*"heartbeat"'
+        then
+          log "keeping system automation: $job_id"
+          continue
+        fi
+
+        if [ "$DRY_RUN" -eq 1 ]; then
+          log "[dry-run] would remove user automation: $job_id"
+        else
+          OPENCLAW_CONFIG_PATH="$CONFIG_PATH" openclaw automations remove "$job_id" >/dev/null 2>&1 \
+            && log "removed user automation: $job_id" \
+            || log "left automation (not removable): $job_id"
+        fi
+      done <<EOF
+$JOB_IDS
+EOF
+    fi
+  else
+    warn "unable to list automations with --json; skipping user automation cleanup"
+  fi
+
+  SPRINT_AUTOMATION_NAME="Sprint completion consult"
+  SPRINT_AUTOMATION_SCHEDULE="0 9 * * 1-5"
+  SPRINT_AUTOMATION_PROMPT="Consult on whether the sprint is complete. Review sprint progress and provide a recommendation with rationale."
+  if [ "$DRY_RUN" -eq 1 ]; then
+    log "[dry-run] would create Sprint Master automation: $SPRINT_AUTOMATION_NAME"
+  else
+    OPENCLAW_CONFIG_PATH="$CONFIG_PATH" openclaw automations create \
+      "$SPRINT_AUTOMATION_SCHEDULE" \
+      "$SPRINT_AUTOMATION_PROMPT" \
+      --name "$SPRINT_AUTOMATION_NAME" \
+      --session isolated \
+      --agent sprint-master >/dev/null 2>&1 \
+      && log "installed automation: $SPRINT_AUTOMATION_NAME" \
+      || warn "failed to create Sprint Master automation (check whether agent 'sprint-master' exists)"
+  fi
+
   info "Validating with the OpenClaw CLI"
   run "openclaw config validate || openclaw doctor --fix || true"
 else
